@@ -6,9 +6,31 @@ toggle.addEventListener('click', () => {
   toggle.setAttribute('aria-expanded', open);
   toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
 });
-nav.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+const navLinks = [...nav.querySelectorAll('.nav-links a')];
+// highlight the menu item of the section being viewed (and the one just clicked)
+const setActiveNav = id => navLinks.forEach(a => {
+  const on = a.hash === '#' + id;
+  a.classList.toggle('is-active', on);
+  if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+});
+let navLock = 0; // while a clicked link smooth-scrolls, keep its highlight instead of flickering through sections
+navLinks.forEach(a => a.addEventListener('click', () => {
   nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false');
+  setActiveNav(a.hash.slice(1));
+  navLock = Date.now() + 1200;
 }));
+const pageSections = [...document.querySelectorAll('main > section')];
+let spyFrame = 0;
+const spySections = () => {
+  spyFrame = 0;
+  if (Date.now() < navLock) return;
+  const line = innerHeight * .4;
+  const current = pageSections.find(s => { const r = s.getBoundingClientRect(); return r.top <= line && r.bottom > line; });
+  setActiveNav(current ? current.id : '');
+};
+addEventListener('scroll', () => { if (!spyFrame) spyFrame = requestAnimationFrame(spySections); }, {passive: true});
+addEventListener('scrollend', () => { navLock = 0; spySections(); });
+spySections();
 document.getElementById('year').textContent = new Date().getFullYear();
 
 // solutions carousel
@@ -141,3 +163,32 @@ timeline.classList.add('anim');
 new IntersectionObserver(([e], obs) => {
   if (e.isIntersecting) { timeline.classList.add('in-view'); obs.disconnect(); }
 }, {threshold: .2, rootMargin: '0px 0px -15% 0px'}).observe(timeline);
+
+// FAQ accordion: animate opening/closing and keep only one answer open
+const faqItems = [...document.querySelectorAll('.faq-list details')];
+const faqMotion = matchMedia('(prefers-reduced-motion: reduce)');
+faqItems.forEach(d => d.removeAttribute('name')); // JS handles exclusivity so the closing item can animate too
+const setFaq = (d, open) => {
+  const body = d.querySelector('.faq-a');
+  d.anim?.cancel();
+  if (faqMotion.matches) { d.classList.remove('is-closing'); d.open = open; return; }
+  if (open) {
+    d.classList.remove('is-closing');
+    d.open = true;
+    d.anim = body.animate(
+      [{height: '0px', opacity: 0, transform: 'translateY(-6px)'}, {height: body.scrollHeight + 'px', opacity: 1, transform: 'none'}],
+      {duration: 380, easing: 'cubic-bezier(.2,.7,.2,1)'});
+  } else {
+    d.classList.add('is-closing');
+    d.anim = body.animate(
+      [{height: body.offsetHeight + 'px', opacity: 1}, {height: '0px', opacity: 0}],
+      {duration: 280, easing: 'cubic-bezier(.4,0,.2,1)'});
+    d.anim.onfinish = () => { d.open = false; d.classList.remove('is-closing'); };
+  }
+};
+faqItems.forEach(d => d.querySelector('summary').addEventListener('click', e => {
+  e.preventDefault();
+  const opening = !d.open || d.classList.contains('is-closing');
+  if (opening) faqItems.forEach(o => { if (o !== d && o.open && !o.classList.contains('is-closing')) setFaq(o, false); });
+  setFaq(d, opening);
+}));
