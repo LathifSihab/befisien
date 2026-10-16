@@ -1,0 +1,17 @@
+# Befisien Technologies
+User-agent: *
+Allow: /
+
+# AI search & assistant crawlers are explicitly welcome (GEO)
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://befisien.cloud/sitemap.xml

@@ -1,0 +1,70 @@
+# Befisien Technologies
+
+> Befisien Technologies adalah konsultan IT dan transformasi digital di Indonesia. Kami membantu perusahaan bekerja lebih efisien melalui AI agent, otomasi workflow, integrasi sistem, dashboard & aplikasi, serta content management service.
+
+Website: https://befisien.cloud/
+Bahasa: Indonesia
+Wilayah layanan: Indonesia (semua industri)
+
+## Solusi
+
+- **AI Agent**: Asisten digital berbasis AI yang memahami dokumen, data, dan percakapan bisnis untuk menjawab pelanggan, menyiapkan laporan, dan menjalankan tugas berulang 24/7.
+- **Otomasi Workflow**: Mengubah pekerjaan manual dan berulang, seperti approval, sinkronisasi data, dan pembuatan dokumen, menjadi alur kerja otomatis yang terukur.
+- **Integrasi Sistem**: Menghubungkan ERP, CRM, CMS, marketplace, dan sistem lama sehingga data cukup diinput sekali dan mengalir otomatis ke semua tim.
+- **Dashboard & Aplikasi**: Dashboard KPI real-time dan aplikasi web/mobile internal yang dibuat sesuai alur kerja perusahaan.
+- **Content Management Service**: Pembuatan dan pengelolaan CMS agar tim dapat memperbarui website, katalog, dan konten tanpa bergantung pada developer.
+
+## Contoh penerapan
+
+Skenario umum (ilustrasi, bukan studi kasus klien):
+
+- **Approval & invoice vendor** (Keuangan, Otomasi Workflow): Sebelum: Data invoice diketik ulang dari PDF, lalu approval berpindah-pindah lewat email dan mudah tertunda. Sesudah: Data invoice terbaca otomatis, approval berjenjang cukup satu klik, dan statusnya bisa dilacak kapan saja.
+- **Pertanyaan pelanggan di WhatsApp** (Customer Service, AI Agent): Sebelum: Pesan menumpuk di luar jam kerja dan tim menjawab pertanyaan yang sama berulang kali. Sesudah: AI agent menjawab pertanyaan umum 24/7 dan meneruskan kasus yang kompleks ke tim yang tepat.
+- **Stok di banyak kanal** (Penjualan & Gudang, Integrasi Sistem): Sebelum: Stok di marketplace, gudang, dan ERP tidak sinkron sehingga pesanan bisa melebihi stok. Sesudah: Stok dan pesanan tersinkron otomatis di semua kanal, tanpa input ulang.
+- **Laporan performa bulanan** (Manajemen, Dashboard & Aplikasi): Sebelum: Laporan dirangkum manual dari banyak spreadsheet dan baru siap berhari-hari kemudian. Sesudah: Dashboard KPI terbarui otomatis, dan ringkasan laporan terkirim ke email setiap pagi.
+- **Pertanyaan seputar SOP** (HR & Operasional, AI Agent): Sebelum: Karyawan terus bertanya hal yang sama soal SOP dan kebijakan, sementara dokumennya sulit dicari. Sesudah: Asisten internal menjawab langsung dari dokumen SOP perusahaan, lengkap dengan rujukannya.
+- **Update website & promo** (Marketing, Content Management Service): Sebelum: Setiap perubahan harga, katalog, atau promo di website harus menunggu developer. Sesudah: Tim marketing memperbarui konten sendiri lewat CMS, dengan alur review sebelum tayang.
+
+## Cara kerja
+
+1. **Audit**: mempelajari alur kerja, sistem, dan data untuk menemukan proses yang paling banyak menyita waktu. Hasil: peta proses & daftar peluang efisiensi.
+2. **Rancang**: menyusun solusi, prioritas, estimasi biaya, dan target hasil yang terukur. Hasil: proposal & rancangan solusi.
+3. **Bangun**: membangun solusi bertahap dan mengujinya bersama tim klien. Hasil: sistem siap pakai & dokumentasi.
+4. **Dampingi**: melatih tim, memantau performa, dan menyempurnakan solusi. Hasil: pelatihan, monitoring & dukungan.
+
+## FAQ
+
+### Apa itu Befisien Technologies?
+
+Befisien Technologies adalah konsultan IT dan transformasi digital di Indonesia. Kami membantu perusahaan bekerja lebih efisien melalui AI agent, otomasi workflow, integrasi sistem, dashboard & aplikasi, serta content management service.
+
+### Apa itu AI agent, dan apa bedanya dengan chatbot biasa?
+
+Chatbot biasa menjawab berdasarkan skrip yang sudah ditentukan. AI agent memahami pertanyaan dalam bahasa sehari-hari, mengambil jawaban dari dokumen dan data perusahaan, dan bisa menjalankan tugas, misalnya membuat tiket, memperbarui data, atau menyiapkan laporan.
+
+### Apakah kami harus mengganti sistem yang sudah ada?
+
+Tidak harus. Kami biasanya memulai dengan menghubungkan sistem yang sudah Anda gunakan, seperti ERP, CRM, spreadsheet, atau WhatsApp, lalu mengotomasi proses di antaranya. Penggantian sistem hanya kami sarankan bila memang lebih menguntungkan.
+
+### Industri apa saja yang bisa dibantu?
+
+Solusi kami tidak terbatas pada industri tertentu. Selama ada proses yang berulang, data yang tersebar, atau sistem yang belum terhubung, kami bisa membantu membuatnya lebih efisien.
+
+### Berapa lama dan berapa biaya sebuah proyek?
+
+Bergantung pada cakupan dan kompleksitas proses. Setelah tahap audit, Anda menerima rancangan solusi beserta estimasi waktu dan biaya tertulis sebelum proyek dimulai. Konsultasi awal gratis.
+
+### Bagaimana dengan keamanan data perusahaan?
+
+Kebutuhan keamanan dan lokasi penyimpanan data dibahas sejak tahap rancang. Akses data dibatasi sesuai kebutuhan proyek, dan sistem dapat dijalankan di server atau cloud milik perusahaan Anda.
+
+### Apa yang terjadi setelah sistem berjalan?
+
+Kami melatih tim Anda, memantau performa sistem, dan terus menyempurnakan solusi sesuai kebutuhan pada tahap pendampingan.
+
+## Kontak
+
+- Konsultasi gratis lewat formulir: https://befisien.cloud/#kontak
+- Email: [email@befisien.cloud]
+- WhatsApp: [+62 xxx xxxx xxxx]
+- LinkedIn: [linkedin-url]
