@@ -14,4 +14,4 @@ User-agent: Google-Extended
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://befisien.cloud/sitemap.xml
+Sitemap: https://befisien.com/sitemap.xml

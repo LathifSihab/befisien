@@ -2,9 +2,27 @@
 
 > Befisien Technologies adalah konsultan IT dan transformasi digital di Indonesia. Kami membantu perusahaan bekerja lebih efisien melalui AI agent, otomasi workflow, integrasi sistem, dashboard & aplikasi, serta content management service.
 
-Website: https://befisien.cloud/
+Website: https://befisien.com/
 Bahasa: Indonesia
 Wilayah layanan: Indonesia (semua industri)
+
+## Visi
+
+Menjadi penggerak efisiensi bisnis di Indonesia melalui integrasi AI Agent, guna mewujudkan ekosistem usaha yang tangguh, minim eror, dan tumbuh tanpa batas.
+
+## Misi
+
+1. **Personalisasi Solusi AI**: Membangun AI Agent yang dirancang khusus sesuai dengan kebutuhan unik setiap departemen di perusahaan klien, bukan solusi satu-untuk-semua.
+2. **Akselerasi Pertumbuhan (Growth Hacking)**: Mengoptimalkan proses bisnis yang lambat menjadi instan, sehingga klien dapat melakukan scaling tanpa terhambat masalah administratif.
+3. **Eliminasi Human Error**: Mengintegrasikan sistem cerdas yang mampu bekerja dengan presisi tinggi 24/7 untuk menjaga standar kualitas kerja klien.
+4. **Demokratisasi Teknologi Tinggi**: Menghadirkan teknologi AI mutakhir yang biasanya hanya dimiliki perusahaan besar, agar dapat diakses dan digunakan dengan mudah oleh UMKM dan CV yang sedang berkembang.
+5. **Edukasi Efisiensi**: Menjadi partner konsultasi yang membantu pemilik bisnis memahami cara kerja cerdas (work smarter) melalui kolaborasi manusia dan AI.
+
+## Filosofi nama & logo
+
+- **B (Build / Become)**: Membangun pondasi yang kuat.
+- **EFISIEN**: Fokus tunggal kami.
+- **Tiga garis**: Menunjukkan proses bertumbuhnya sebuah bisnis, sekaligus simbol integrasi: semuanya saling terhubung.
 
 ## Solusi
 
@@ -64,7 +82,7 @@ Kami melatih tim Anda, memantau performa sistem, dan terus menyempurnakan solusi
 
 ## Kontak
 
-- Konsultasi gratis lewat formulir: https://befisien.cloud/#kontak
-- Email: [email@befisien.cloud]
+- Konsultasi gratis lewat formulir: https://befisien.com/#kontak
+- Email: info@befisien.com
 - WhatsApp: [+62 xxx xxxx xxxx]
 - LinkedIn: [linkedin-url]
