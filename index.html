@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- preloader: only armed when JS runs; the timeout is a safety net so the page can never stay hidden -->
+<script>document.documentElement.classList.add('is-loading');setTimeout(function(){document.documentElement.classList.remove('is-loading')},6000)</script>
 <title>Befisien Technologies | AI Agent, Otomasi Workflow &amp; Integrasi Sistem</title>
 <meta name="description" content="Konsultan IT &amp; transformasi digital di Indonesia: AI agent, otomasi workflow, integrasi sistem, dashboard, dan CMS agar bisnis bekerja lebih efisien.">
 <link rel="canonical" href="https://befisien.com/">
@@ -269,6 +271,25 @@
 </head>
 <body>
 
+<div class="preloader" aria-hidden="true">
+  <div class="pl-inner">
+    <svg class="pl-mark" viewBox="0 0 110 148">
+      <defs>
+        <clipPath id="pl-clip"><path d="M0,0 H73.6 C96,0 110,16 110,40 C110,56 104,66 94.5,73 C104,79 109,92 109,108 C109,129 99,148 79,148 H0 Z"/></clipPath>
+        <mask id="pl-body-mask"><rect width="110" height="148" fill="#fff"/><circle cx="0" cy="148" r="91.2" fill="#000"/></mask>
+      </defs>
+      <path class="pl-body" d="M0,0 H73.6 C96,0 110,16 110,40 C110,56 104,66 94.5,73 C104,79 109,92 109,108 C109,129 99,148 79,148 H0 Z" mask="url(#pl-body-mask)"/>
+      <g clip-path="url(#pl-clip)" fill="none">
+        <circle class="pl-arc" cx="0" cy="148" r="17.8" stroke-width="13.6"/>
+        <circle class="pl-arc" cx="0" cy="148" r="44.8" stroke-width="14"/>
+        <circle class="pl-arc" cx="0" cy="148" r="71.45" stroke-width="13.5"/>
+      </g>
+    </svg>
+    <span class="logo-text pl-word"><b>BEFISIEN</b><small>TECHNOLOGIES</small></span>
+    <span class="pl-bar"></span>
+  </div>
+</div>
+
 <header class="site-header">
   <div class="container nav" id="nav">
     <a href="#top" class="logo" aria-label="Befisien Technologies, ke beranda">
@@ -303,7 +324,14 @@
       </div>
 
       <div class="hero-visual">
-        <img src="assets/img/hero.webp" width="957" height="817" alt="Ilustrasi 3D logo Befisien dikelilingi AI agent, gear otomasi, panel surya, dan baterai" fetchpriority="high">
+        <!-- layered 3D scene: the floating pieces are separate images so they can move on their own -->
+        <div class="hero-scene">
+          <span class="hero-glow" aria-hidden="true"></span>
+          <img class="hs-base" src="assets/img/hero-base.webp" width="957" height="817" alt="Ilustrasi 3D logo Befisien dikelilingi AI agent, gear otomasi, panel surya, dan baterai" fetchpriority="high">
+          <img class="hs-layer hs-chat" src="assets/img/hero-chat.webp" width="147" height="151" alt="" style="--l:5.75%;--t:6%;--w:15.36%">
+          <img class="hs-layer hs-dot" src="assets/img/hero-dot.webp" width="44" height="45" alt="" style="--l:24.14%;--t:28.52%;--w:4.6%">
+          <img class="hs-layer hs-gear" src="assets/img/hero-gear.webp" width="195" height="234" alt="" style="--l:74.71%;--t:8.57%;--w:20.38%">
+        </div>
       </div>
 
       <form class="finder" action="#kontak" aria-label="Cari solusi">

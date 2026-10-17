@@ -24,6 +24,34 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.025em}
 .hl{color:var(--accent)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
+/* preloader (shown only while <html> has .is-loading, then faded out by main.js) */
+.preloader{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 42%,#2D6AF2 0%,var(--accent) 45%,#1747C9 100%)}
+html.is-loading .preloader,.preloader.is-done{display:flex}
+html.is-loading body{overflow:hidden}
+.pl-inner{display:flex;flex-direction:column;align-items:center;gap:22px;animation:pl-in .6s cubic-bezier(.2,.7,.2,1) both}
+.pl-mark{width:78px;height:auto;overflow:visible}
+.pl-body{fill:#fff}
+.pl-arc{stroke:#fff;opacity:.25;animation:pl-signal 1.2s ease-in-out infinite}
+.pl-arc:nth-child(2){animation-delay:.15s}
+.pl-arc:nth-child(3){animation-delay:.3s}
+.pl-word{color:#fff;align-items:center}
+.pl-word b{font-size:30px}
+.pl-word small{font-size:14.5px}
+.pl-bar{position:relative;width:140px;height:3px;border-radius:3px;background:rgba(255,255,255,.22);overflow:hidden}
+.pl-bar::after{content:"";position:absolute;inset:0;width:40%;border-radius:3px;background:#fff;animation:pl-bar 1.1s cubic-bezier(.6,0,.4,1) infinite}
+.preloader.is-done{opacity:0;visibility:hidden;transition:opacity .6s ease,visibility 0s .6s}
+.preloader.is-done .pl-inner{transform:scale(1.06);opacity:0;transition:transform .6s ease,opacity .4s ease}
+@keyframes pl-in{from{opacity:0;transform:scale(.9)}}
+@keyframes pl-signal{0%,100%{opacity:.25}40%{opacity:1}}
+@keyframes pl-bar{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+/* hero content rises in once the preloader leaves */
+.hero-copy > *,.hero-visual,.finder{transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.hero-copy > :nth-child(2){transition-delay:.08s}
+.hero-copy > :nth-child(3){transition-delay:.16s}
+.hero-visual{transition-delay:.22s}
+.finder{transition-delay:.32s}
+html.is-loading .hero-copy > *,html.is-loading .hero-visual,html.is-loading .finder{opacity:0;transform:translateY(24px)}
+
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:13px 22px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;transition:transform .15s,background .15s}
 .btn:hover{transform:translateY(-1px)}
@@ -64,7 +92,18 @@ section[id]{scroll-margin-top:80px}
 .hero h1 span{color:var(--sky)}
 .hero p{margin:0;font-size:18px;line-height:1.55;color:#E3EBFF;max-width:540px}
 .hero-visual{flex:1 1 440px;min-width:0;position:relative;display:flex;justify-content:center}
-.hero-visual img{width:100%;max-width:560px;
+/* hero 3D scene: whole scene floats + tilts toward the pointer; floating pieces bob on their own with parallax depth (--d) */
+.hero-scene{position:relative;width:100%;max-width:560px;aspect-ratio:957/817;transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .6s cubic-bezier(.2,.7,.2,1);animation:hero-float 7s ease-in-out infinite}
+@keyframes hero-float{50%{translate:0 -12px}}
+.hero-glow{position:absolute;left:50%;top:60%;width:85%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(159,212,255,.42),rgba(159,212,255,0) 64%);pointer-events:none;animation:hero-glow 6s ease-in-out infinite}
+@keyframes hero-glow{50%{transform:translate(-50%,-50%) scale(1.12);opacity:.65}}
+.hs-layer{position:absolute;left:var(--l);top:var(--t);width:var(--w);height:auto;translate:calc(var(--px,0) * var(--d) * 1px) calc(var(--py,0) * var(--d) * 1px);transition:translate .6s cubic-bezier(.2,.7,.2,1);will-change:transform}
+.hs-chat{--d:-34;animation:hs-bob 5s ease-in-out infinite}
+.hs-dot{--d:-56;animation:hs-bob 4s ease-in-out -1.6s infinite}
+.hs-gear{--d:-42;animation:hs-gear 7s ease-in-out -2s infinite}
+@keyframes hs-bob{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-16px) rotate(-4deg)}}
+@keyframes hs-gear{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-12px) rotate(14deg)}}
+.hs-base{position:absolute;inset:0;width:100%;height:100%;
   /* fade the baked-in shadow so it doesn't end in a hard rectangle */
   -webkit-mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent),linear-gradient(to bottom,#000 82%,transparent);-webkit-mask-composite:source-in;
   mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent),linear-gradient(to bottom,#000 82%,transparent);mask-composite:intersect}

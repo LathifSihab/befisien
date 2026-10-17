@@ -1,3 +1,40 @@
+// preloader: keep it up at least ~0.9s after navigation start, at most 4s, then fade it out
+const preloader = document.querySelector('.preloader');
+if (preloader) {
+  const hidePreloader = () => {
+    if (preloader.classList.contains('is-done')) return;
+    preloader.classList.add('is-done');
+    document.documentElement.classList.remove('is-loading');
+    setTimeout(() => preloader.remove(), 800);
+  };
+  const onLoad = () => setTimeout(hidePreloader, Math.max(0, 900 - performance.now()));
+  if (document.readyState === 'complete') onLoad(); else addEventListener('load', onLoad);
+  setTimeout(hidePreloader, 4000);
+}
+
+// hero 3D scene: tilt + parallax toward the pointer (mouse/trackpad only)
+const heroSection = document.querySelector('.hero');
+const heroVisual = document.querySelector('.hero-visual');
+if (heroVisual && matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+  let heroFrame = 0;
+  heroSection.addEventListener('pointermove', e => {
+    cancelAnimationFrame(heroFrame);
+    heroFrame = requestAnimationFrame(() => {
+      const r = heroVisual.getBoundingClientRect();
+      const px = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / r.width));
+      const py = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / r.height));
+      heroVisual.style.setProperty('--rx', `${-py * 8}deg`);
+      heroVisual.style.setProperty('--ry', `${px * 12}deg`);
+      heroVisual.style.setProperty('--px', px);
+      heroVisual.style.setProperty('--py', py);
+    });
+  });
+  heroSection.addEventListener('pointerleave', () => {
+    cancelAnimationFrame(heroFrame);
+    ['--rx', '--ry', '--px', '--py'].forEach(p => heroVisual.style.removeProperty(p));
+  });
+}
+
 // mobile menu
 const nav = document.getElementById('nav');
 const toggle = nav.querySelector('.nav-toggle');
