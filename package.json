@@ -1,0 +1,8 @@
+{
+  "name": "befisien-site",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "openai": "^7.39.0"
+  }
+}

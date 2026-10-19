@@ -1,0 +1,28 @@
+# Static site served from the repo root; the chat API lives in netlify/functions/chat.mjs (/api/chat)
+[build]
+  publish = "."
+
+# keep server-side source and tooling files from being served as static files
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404"
+  status = 404
+  force = true
