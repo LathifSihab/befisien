@@ -8,6 +8,7 @@
     429: 'Pesan Anda terlalu cepat. Tunggu sebentar, lalu coba lagi.',
     busy: 'Asisten sedang sibuk. Coba lagi sebentar, atau hubungi kami lewat formulir di #kontak.',
     default: 'Maaf, asisten sedang tidak bisa menjawab. Silakan hubungi kami lewat formulir di #kontak atau email info@befisien.com.',
+    cut: '*Jawaban terputus. Silakan kirim ulang pertanyaan Anda.*',
   };
 
   let history = [];
@@ -48,21 +49,45 @@
   const input = form.elements[0];
   const sendBtn = form.querySelector('button');
 
-  // plain text in, with URLs, emails and #kontak turned into links (built as DOM nodes, never innerHTML)
+  // bot replies: a small Markdown subset (paragraphs, bullet/numbered lists, **bold**, *italic*, [links](url))
+  // plus bare URLs, emails and #kontak as links. Built as DOM nodes, never innerHTML, so replies can't inject markup.
+  const link = (target, label) => {
+    const href = target.includes('@') && !target.startsWith('http') ? 'mailto:' + target : target;
+    const a = el('a', '', {href, textContent: label});
+    if (href.startsWith('http') && !href.startsWith(location.origin) && !href.startsWith('https://befisien.com')) Object.assign(a, {target: '_blank', rel: 'noopener'});
+    if (href === '#kontak' || href.endsWith('/#kontak')) a.addEventListener('click', () => toggle(false));
+    return a;
+  };
+  const INLINE = /\*\*(.+?)\*\*|(?<![\w*])\*(?![\s*])(.+?)(?<!\s)\*(?![\w*])|\[([^\]]+)\]\((https?:\/\/[^\s)]+|#[\w-]+)\)|(https?:\/\/[^\s]+[^\s.,)]|[\w.+-]+@[\w-]+\.[\w.]+\w|#kontak\b)/g;
+  const inline = (parent, text) => {
+    let last = 0;
+    for (const m of text.matchAll(INLINE)) {
+      parent.append(text.slice(last, m.index));
+      if (m[1]) inline(parent.appendChild(el('strong')), m[1]);
+      else if (m[2]) inline(parent.appendChild(el('em')), m[2]);
+      else parent.append(link(m[4] ?? m[5], m[3] ?? m[5]));
+      last = m.index + m[0].length;
+    }
+    parent.append(text.slice(last));
+  };
   const render = (node, text) => {
     node.textContent = '';
-    text.split(/(https?:\/\/[^\s]+[^\s.,)]|[\w.+-]+@[\w-]+\.[\w.]+\w|#kontak\b)/g).forEach((part, i) => {
-      if (i % 2 === 0) return part && node.append(part);
-      const href = part.includes('@') && !part.startsWith('http') ? 'mailto:' + part : part;
-      const a = el('a', '', {href, textContent: part});
-      if (href.startsWith('http') && !href.startsWith(location.origin) && !href.startsWith('https://befisien.com')) Object.assign(a, {target: '_blank', rel: 'noopener'});
-      if (href === '#kontak' || href.endsWith('/#kontak')) a.addEventListener('click', () => toggle(false));
-      node.append(a);
-    });
+    let list = null;
+    for (const line of text.split('\n')) {
+      const item = line.match(/^\s*(?:[-*•]|(\d+)[.)])\s+(.*)/);
+      if (item) {
+        const tag = item[1] ? 'OL' : 'UL';
+        if (list?.tagName !== tag) list = node.appendChild(el(tag, '', item[1] ? {start: +item[1]} : {}));
+        inline(list.appendChild(el('li')), item[2]);
+      } else if (line.trim()) {
+        list = null;
+        inline(node.appendChild(el('p')), line.replace(/^#{1,6}\s+(.*)/, '**$1**'));
+      }
+    }
   };
   const bubble = (role, text = '') => {
     const b = el('div', 'chat-msg is-' + role);
-    render(b, text);
+    if (role === 'user') b.textContent = text; else render(b, text);
     log.append(b);
     log.scrollTop = log.scrollHeight;
     return b;
@@ -135,7 +160,7 @@
       reply.classList.remove('is-typing');
       reply.classList.add('is-error');
       reply.removeAttribute('aria-label');
-      render(reply, (answer ? answer + '\n\n' : '') + (ERRORS[err.message] || ERRORS.default));
+      render(reply, answer ? answer + '\n\n' + ERRORS.cut : ERRORS[err.message] || ERRORS.default);
     } finally {
       save();
       busy = false;
