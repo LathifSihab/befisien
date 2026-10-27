@@ -1,3 +1,18 @@
+// UI text set from script, in the page language (<html lang>: id on /, en on /en/)
+const UI = document.documentElement.lang.startsWith('en') ? {
+  menuOpen: 'Open menu', menuClose: 'Close menu',
+  slidesPlay: 'Play slideshow', slidesPause: 'Pause slideshow',
+  sending: 'Sending your message…',
+  sent: 'Thank you! Your message has been sent. Our team will be in touch with you shortly.',
+  failed: 'Sorry, your message could not be sent. Please try again, or contact us on WhatsApp.',
+} : {
+  menuOpen: 'Buka menu', menuClose: 'Tutup menu',
+  slidesPlay: 'Putar slide otomatis', slidesPause: 'Jeda slide otomatis',
+  sending: 'Mengirim pesan…',
+  sent: 'Terima kasih! Pesan Anda sudah terkirim. Tim kami akan segera menghubungi Anda.',
+  failed: 'Maaf, pesan gagal terkirim. Silakan coba lagi, atau hubungi kami lewat WhatsApp.',
+};
+
 // preloader: keep it up at least ~0.9s after navigation start, at most 4s, then fade it out
 const preloader = document.querySelector('.preloader');
 if (preloader) {
@@ -35,13 +50,18 @@ if (heroVisual && matchMedia('(hover: hover) and (pointer: fine) and (prefers-re
   });
 }
 
+// remember an explicit language pick, so the geo redirect on / (netlify/edge-functions/lang-redirect.mjs) follows it
+document.querySelectorAll('.lang-switch a').forEach(a => a.addEventListener('click', () => {
+  document.cookie = `lang=${a.hreflang}; path=/; max-age=31536000; samesite=lax`;
+}));
+
 // mobile menu
 const nav = document.getElementById('nav');
 const toggle = nav.querySelector('.nav-toggle');
 toggle.addEventListener('click', () => {
   const open = nav.classList.toggle('open');
   toggle.setAttribute('aria-expanded', open);
-  toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+  toggle.setAttribute('aria-label', open ? UI.menuClose : UI.menuOpen);
 });
 const navLinks = [...nav.querySelectorAll('.nav-links a')];
 // highlight the menu item of the section being viewed (and the one just clicked)
@@ -97,7 +117,7 @@ const sync = () => {
   sol.classList.toggle('is-paused', userPaused || focused || !visible);
   sol.classList.toggle('is-user-paused', userPaused);
   content.setAttribute('aria-live', userPaused ? 'polite' : 'off');
-  playBtn.setAttribute('aria-label', userPaused ? 'Putar slide otomatis' : 'Jeda slide otomatis');
+  playBtn.setAttribute('aria-label', userPaused ? UI.slidesPlay : UI.slidesPause);
 };
 
 bars.forEach((b, i) => {
@@ -161,7 +181,7 @@ form.addEventListener('submit', async e => {
   e.preventDefault();
   submitBtn.disabled = true;
   submitBtn.setAttribute('aria-busy', 'true');
-  setStatus('Mengirim pesan…');
+  setStatus(UI.sending);
   try {
     // Netlify Forms expects a url-encoded POST to any static path, including the form-name field
     const res = await fetch('/', {
@@ -171,9 +191,9 @@ form.addEventListener('submit', async e => {
     });
     if (!res.ok) throw new Error(res.status);
     form.reset();
-    setStatus('Terima kasih! Pesan Anda sudah terkirim. Tim kami akan segera menghubungi Anda.', 'success');
+    setStatus(UI.sent, 'success');
   } catch {
-    setStatus('Maaf, pesan gagal terkirim. Silakan coba lagi, atau hubungi kami lewat WhatsApp.', 'error');
+    setStatus(UI.failed, 'error');
   } finally {
     submitBtn.disabled = false;
     submitBtn.removeAttribute('aria-busy');

@@ -8,6 +8,10 @@
 <title>Befisien Technologies | AI Agent, Otomasi Workflow &amp; Integrasi Sistem</title>
 <meta name="description" content="Konsultan IT &amp; transformasi digital di Indonesia: AI agent, otomasi workflow, integrasi sistem, dashboard, dan CMS agar bisnis bekerja lebih efisien.">
 <link rel="canonical" href="https://befisien.com/">
+<!-- language versions: keep in sync with en/index.html and sitemap.xml -->
+<link rel="alternate" hreflang="id" href="https://befisien.com/">
+<link rel="alternate" hreflang="en" href="https://befisien.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://befisien.com/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Befisien Technologies">
 <meta name="theme-color" content="#1F5BEA">
@@ -16,6 +20,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Befisien Technologies">
 <meta property="og:locale" content="id_ID">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:url" content="https://befisien.com/">
 <meta property="og:title" content="Befisien Technologies: Bisnis lebih efisien dengan AI &amp; otomasi">
 <meta property="og:description" content="Konsultan IT &amp; transformasi digital di Indonesia: AI agent, otomasi workflow, integrasi sistem, dashboard, dan CMS agar bisnis bekerja lebih efisien.">
@@ -177,7 +182,10 @@
       "@id": "https://befisien.com/#website",
       "url": "https://befisien.com/",
       "name": "Befisien Technologies",
-      "inLanguage": "id-ID",
+      "inLanguage": [
+        "id-ID",
+        "en"
+      ],
       "publisher": {
         "@id": "https://befisien.com/#organization"
       }
@@ -304,6 +312,10 @@
       <a href="#tentang">Tentang Kami</a>
       <a href="#faq">FAQ</a>
     </nav>
+    <div class="lang-switch" role="group" aria-label="Pilih bahasa">
+      <a href="/" hreflang="id" lang="id" aria-current="page"><span aria-hidden="true">ID</span><span class="sr-only">Bahasa Indonesia</span></a>
+      <a href="/en/" hreflang="en" lang="en"><span aria-hidden="true">EN</span><span class="sr-only">English</span></a>
+    </div>
     <a href="#kontak" class="btn btn-primary">Konsultasi Gratis</a>
     <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -742,6 +754,7 @@
       <form id="contact-form" class="cform" name="kontak" method="POST" data-netlify="true" netlify-honeypot="_gotcha">
         <input type="hidden" name="form-name" value="kontak">
         <input type="hidden" name="subject" value="Pesan baru dari website Befisien">
+        <input type="hidden" name="bahasa" value="Indonesia">
         <div class="field">
           <label for="cf-nama">Nama lengkap</label>
           <input id="cf-nama" name="nama" type="text" autocomplete="name" required>

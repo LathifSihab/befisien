@@ -74,9 +74,15 @@ html.is-loading .hero-copy > *,html.is-loading .hero-visual,html.is-loading .fin
 .site-header{position:sticky;top:0;z-index:20;padding:9px 0;pointer-events:none}
 .site-header .nav{pointer-events:auto;width:calc(100% - 32px);max-width:calc(var(--max) - 48px);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:8px 8px 8px 20px;border:1px solid rgba(11,24,64,.1);border-radius:20px;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);box-shadow:0 12px 32px -22px rgba(11,24,64,.45)}
 .nav-links{display:flex;gap:4px;font-size:15px;font-weight:600}
-.nav-links a{padding:10px 16px;border-radius:12px;color:var(--navy);text-decoration:none;transition:background-color .2s,color .2s}
+.nav-links a{white-space:nowrap;padding:10px 16px;border-radius:12px;color:var(--navy);text-decoration:none;transition:background-color .2s,color .2s}
 .nav-links a:hover{background:rgba(31,91,234,.07);color:var(--accent)}
 .nav-links a.is-active{background:var(--tint);color:var(--accent)}
+/* language switcher; the auto margins keep the menu centred between the logo and the right-hand group */
+.nav-links{margin-left:auto}
+.lang-switch{display:flex;gap:2px;padding:4px;margin-left:auto;margin-right:-14px;border-radius:12px;background:var(--tint)}
+.lang-switch a{position:relative;display:flex;align-items:center;min-height:36px;padding:0 10px;border-radius:9px;color:var(--text-2);font-size:13px;font-weight:800;letter-spacing:.04em;text-decoration:none;transition:background-color .2s,color .2s}
+.lang-switch a:hover{color:var(--accent)}
+.lang-switch a[aria-current]{background:#fff;color:var(--accent);box-shadow:0 2px 6px -2px rgba(11,24,64,.25)}
 .nav-toggle{display:none;width:44px;height:44px;border:0;border-radius:12px;background:var(--tint);color:var(--navy);cursor:pointer;align-items:center;justify-content:center}
 
 /* hero */
@@ -351,6 +357,19 @@ section[id]{scroll-margin-top:80px}
 .social-icon:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3)}
 
 /* responsive */
+@media (max-width:1240px){
+  .nav-links a{padding:10px 12px}
+}
+@media (max-width:1080px){
+  /* the full menu plus language switcher and CTA no longer fit in one row: collapse into the menu button */
+  .nav-links,.nav .btn{display:none}
+  .nav-toggle{display:inline-flex}
+  .nav.open{flex-wrap:wrap}
+  .nav.open .nav-links{display:flex;flex-direction:column;gap:4px;width:100%;order:3;padding-top:8px}
+  .nav.open .nav-links a{padding:12px 14px}
+  .nav.open .btn{display:inline-flex;order:4;margin:4px 0 6px}
+  .site-header .nav{padding-left:16px}
+}
 @media (max-width:960px){
   .hero{padding-top:calc(36px + 80px);padding-bottom:36px}
   .hero h1{font-size:44px}
@@ -375,13 +394,6 @@ section[id]{scroll-margin-top:80px}
   .sol-media{min-height:340px}
 }
 @media (max-width:760px){
-  .nav-links,.nav .btn{display:none}
-  .nav-toggle{display:inline-flex}
-  .nav.open{flex-wrap:wrap}
-  .nav.open .nav-links{display:flex;flex-direction:column;gap:4px;width:100%;order:3;padding-top:8px}
-  .nav.open .nav-links a{padding:12px 14px}
-  .nav.open .btn{display:inline-flex;order:4;margin:4px 0 6px}
-  .site-header .nav{padding-left:16px}
   .hero h1{font-size:34px}
   .finder .sep{display:none}
   .finder button{width:100%;justify-content:center}

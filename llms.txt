@@ -3,7 +3,8 @@
 > Befisien Technologies adalah konsultan IT dan transformasi digital di Indonesia. Kami membantu perusahaan bekerja lebih efisien melalui AI agent, otomasi workflow, integrasi sistem, dashboard & aplikasi, serta content management service.
 
 Website: https://befisien.com/
-Bahasa: Indonesia
+Versi bahasa Inggris (English version): https://befisien.com/en/
+Bahasa: Indonesia, Inggris
 Wilayah layanan: Indonesia (semua industri)
 
 ## Visi

@@ -57,6 +57,8 @@ const detailRows = rows =>
     `<td style="padding:11px 0;${i ? `border-top:1px solid ${C.line};` : ''}font-family:${FONT};font-size:14px;` +
     `font-weight:600;color:${C.navy};vertical-align:top">${value}</td></tr>`).join('') + `</table>`;
 
+const HOME = {id: SITE + '/', en: SITE + '/en/'};
+
 const layout = ({lang = 'id', preheader, eyebrow, title, subtitle, body, footnote}) => `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -76,7 +78,7 @@ const layout = ({lang = 'id', preheader, eyebrow, title, subtitle, body, footnot
 <tr><td align="center" style="padding:32px 12px">
   <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:22px;overflow:hidden">
     <tr><td class="px" style="padding:22px 40px">
-      <a href="${SITE}" style="text-decoration:none"><table role="presentation" cellpadding="0" cellspacing="0"><tr>
+      <a href="${HOME[lang]}" style="text-decoration:none"><table role="presentation" cellpadding="0" cellspacing="0"><tr>
         <td style="vertical-align:middle"><img src="${SITE}/assets/img/logo-192.png" width="46" height="46" alt="" style="display:block;border:0"></td>
         <td style="vertical-align:middle;padding-left:4px;font-family:${FONT};color:${C.navy};line-height:1">
           <div style="font-size:19px;font-weight:800;letter-spacing:.02em">BEFISIEN</div>
@@ -96,7 +98,7 @@ const layout = ({lang = 'id', preheader, eyebrow, title, subtitle, body, footnot
       <p style="margin:0 0 6px;font-weight:700;color:#ffffff">Befisien Technologies</p>
       <p style="margin:0 0 12px">${TAGLINE[lang]}</p>
       <p style="margin:0">
-        <a href="${SITE}" style="color:${C.sky};text-decoration:none">befisien.com</a> &nbsp;·&nbsp;
+        <a href="${HOME[lang]}" style="color:${C.sky};text-decoration:none">befisien.com</a> &nbsp;·&nbsp;
         <a href="mailto:info@befisien.com" style="color:${C.sky};text-decoration:none">info@befisien.com</a> &nbsp;·&nbsp;
         <a href="https://www.instagram.com/befisien_id/" style="color:${C.sky};text-decoration:none">Instagram</a> &nbsp;·&nbsp;
         <a href="https://www.linkedin.com/in/befisien-ai-b99a183b2/" style="color:${C.sky};text-decoration:none">LinkedIn</a>
@@ -109,8 +111,10 @@ const layout = ({lang = 'id', preheader, eyebrow, title, subtitle, body, footnot
 </body>
 </html>`;
 
-// notification to the Befisien team; replies go straight to the visitor (reply_to is set by the caller)
+// notification to the Befisien team, always in Indonesian; replies go straight to the visitor (reply_to is
+// set by the caller). Requests from the English site are flagged so the team answers in English.
 export const teamEmail = (data, createdAt) => {
+  const english = visitorLang(data) === 'en';
   const wa = waNumber(data.whatsapp);
   const who = data.perusahaan ? `${data.nama} · ${data.perusahaan}` : data.nama;
   const fields = [
@@ -125,17 +129,18 @@ export const teamEmail = (data, createdAt) => {
   const rows = fields.map(([label, value]) => [label, !value ? '-'
     : link[label] ? `<a href="${esc(link[label])}" style="color:${C.accent}">${esc(value)}</a>` : esc(value)]);
   const actions = [
-    data.email && button(`mailto:${data.email}?subject=${encodeURIComponent('Konsultasi Befisien')}`, 'Balas via Email'),
+    data.email && button(`mailto:${data.email}?subject=${encodeURIComponent(english ? 'Befisien consultation' : 'Konsultasi Befisien')}`, 'Balas via Email'),
     wa && button(`https://wa.me/${wa}`, 'Chat WhatsApp', false),
   ].filter(Boolean).join('&nbsp;&nbsp;');
 
   return {
-    subject: `Permintaan konsultasi baru: ${who || 'tanpa nama'}`,
+    subject: `${english ? '[EN] ' : ''}Permintaan konsultasi baru: ${who || 'tanpa nama'}`,
     html: layout({
       preheader: `${data.kebutuhan || 'Konsultasi'} · ${String(data.pesan || '').slice(0, 90)}`,
-      eyebrow: 'Permintaan konsultasi baru',
+      eyebrow: `Permintaan konsultasi baru${english ? ' · English' : ''}`,
       title: esc(who || 'Tanpa nama'),
-      subtitle: `Masuk lewat formulir kontak befisien.com pada ${esc(formatDate(createdAt))}.`,
+      subtitle: `Masuk lewat formulir kontak befisien.com${english ? '/en' : ''} pada ${esc(formatDate(createdAt))}.` +
+        (english ? ' Pengunjung memakai website versi bahasa Inggris, balas dalam bahasa Inggris.' : ''),
       body: `
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 20px"><tr>${chip('Kebutuhan', data.kebutuhan)}${chip('Tim', data.ukuran)}</tr></table>
         ${heading('Pesan')}

@@ -26,6 +26,9 @@ Aturan:
 - Jawab singkat dan ramah, maksimal sekitar 80 kata: 1-3 kalimat, atau daftar berpoin pendek (maksimal 4 poin) bila perlu.
 - Format yang boleh dipakai hanya Markdown sederhana: **tebal** dan daftar berpoin (- ) atau bernomor (1. ). Jangan memakai judul (#), tabel, atau blok kode.`;
 
+// visitors on the English page (/en/) get English by default and the English contact form
+const RULES_EN = `Pengunjung ini membuka versi bahasa Inggris website (https://befisien.com/en/). Jawab dalam Bahasa Inggris, kecuali pengunjung menulis dalam bahasa lain; terjemahkan informasi perusahaan seperlunya. Untuk kontak, gunakan formulir di https://befisien.com/en/#kontak.`;
+
 // The company knowledge is the site's own llms.txt, so the bot stays in sync with every deploy.
 // Fetched once per function instance.
 let knowledge;
@@ -54,8 +57,8 @@ export default async req => {
   const origin = req.headers.get('origin');
   if (!origin || new URL(origin).host !== new URL(req.url).host) return json({error: 'forbidden'}, 403);
 
-  let messages;
-  try { ({messages} = await req.json()); } catch { return json({error: 'bad_request'}, 400); }
+  let messages, lang;
+  try { ({messages, lang} = await req.json()); } catch { return json({error: 'bad_request'}, 400); }
   if (!validMessages(messages)) return json({error: 'bad_request'}, 400);
   messages = messages.map(({role, content}) => ({role, content}));
 
@@ -75,7 +78,7 @@ export default async req => {
       stream: true,
       stream_options: {include_usage: true},
       messages: [
-        {role: 'system', content: `${RULES}\n\n<informasi_perusahaan>\n${await loadKnowledge(req.url)}\n</informasi_perusahaan>`},
+        {role: 'system', content: `${RULES}${lang === 'en' ? `\n\n${RULES_EN}` : ''}\n\n<informasi_perusahaan>\n${await loadKnowledge(req.url)}\n</informasi_perusahaan>`},
         ...messages,
       ],
     }, {signal: abort.signal});

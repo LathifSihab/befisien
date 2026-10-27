@@ -1,5 +1,6 @@
 # Static site served from the repo root; the chat API lives in netlify/functions/chat.mjs (/api/chat).
 # netlify/functions/submission-created.mjs emails contact form submissions through Resend.
+# netlify/edge-functions/lang-redirect.mjs sends visitors outside Indonesia from / to /en/.
 [build]
   publish = "."
 
