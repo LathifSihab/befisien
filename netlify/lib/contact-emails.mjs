@@ -9,7 +9,14 @@ const C = {accent: '#1F5BEA', navy: '#0B1840', text2: '#2E3F72', tint: '#DDE8FF'
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
   ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c]);
 const multiline = s => esc(s).replace(/\r?\n/g, '<br>');
-const firstName = nama => String(nama || '').trim().split(/\s+/)[0] || 'Anda';
+const firstName = (nama, fallback) => String(nama || '').trim().split(/\s+/)[0] || fallback;
+
+// the form's hidden "bahasa" field says which language version of the site it was sent from
+const visitorLang = data => data.bahasa === 'English' ? 'en' : 'id';
+const TAGLINE = {
+  id: 'Konsultan IT &amp; transformasi digital: AI agent, otomasi workflow, integrasi sistem, dashboard, dan CMS.',
+  en: 'IT &amp; digital transformation consultancy: AI agents, workflow automation, system integration, dashboards, and CMS.',
+};
 
 const formatDate = iso => new Intl.DateTimeFormat('id-ID', {
   dateStyle: 'long', timeStyle: 'short', timeZone: 'Asia/Jakarta'}).format(iso ? new Date(iso) : new Date()) + ' WIB';
@@ -50,8 +57,8 @@ const detailRows = rows =>
     `<td style="padding:11px 0;${i ? `border-top:1px solid ${C.line};` : ''}font-family:${FONT};font-size:14px;` +
     `font-weight:600;color:${C.navy};vertical-align:top">${value}</td></tr>`).join('') + `</table>`;
 
-const layout = ({preheader, eyebrow, title, subtitle, body, footnote}) => `<!doctype html>
-<html lang="id">
+const layout = ({lang = 'id', preheader, eyebrow, title, subtitle, body, footnote}) => `<!doctype html>
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -87,7 +94,7 @@ const layout = ({preheader, eyebrow, title, subtitle, body, footnote}) => `<!doc
     </td></tr>
     <tr><td class="px" bgcolor="${C.navy}" style="padding:26px 40px;background:${C.navy};font-family:${FONT};font-size:13px;line-height:1.6;color:${C.mutedOnDark}">
       <p style="margin:0 0 6px;font-weight:700;color:#ffffff">Befisien Technologies</p>
-      <p style="margin:0 0 12px">Konsultan IT &amp; transformasi digital: AI agent, otomasi workflow, integrasi sistem, dashboard, dan CMS.</p>
+      <p style="margin:0 0 12px">${TAGLINE[lang]}</p>
       <p style="margin:0">
         <a href="${SITE}" style="color:${C.sky};text-decoration:none">befisien.com</a> &nbsp;·&nbsp;
         <a href="mailto:info@befisien.com" style="color:${C.sky};text-decoration:none">info@befisien.com</a> &nbsp;·&nbsp;
@@ -109,6 +116,7 @@ export const teamEmail = (data, createdAt) => {
   const fields = [
     ['Nama', data.nama], ['Perusahaan', data.perusahaan], ['Email', data.email],
     ['WhatsApp', data.whatsapp], ['Kebutuhan', data.kebutuhan], ['Ukuran tim', data.ukuran],
+    ['Bahasa website', data.bahasa],
   ];
   const link = {
     Email: data.email && `mailto:${data.email}`,
@@ -146,14 +154,63 @@ export const teamEmail = (data, createdAt) => {
   };
 };
 
-// confirmation to the visitor
+// confirmation to the visitor, in the language of the page they wrote from
+const THANK_YOU = {
+  id: {
+    fallbackName: 'Anda',
+    steps: data => [
+      ['Kami pelajari kebutuhan Anda', 'Tim kami membaca pesan Anda dan menyiapkan pertanyaan yang relevan dengan proses bisnis Anda.'],
+      ['Kami hubungi Anda', `Kami akan menghubungi Anda lewat email${data.whatsapp ? ' atau WhatsApp' : ''} untuk menjadwalkan sesi konsultasi di waktu yang Anda pilih.`],
+      ['Sesi konsultasi gratis', 'Bersama-sama kita petakan proses yang paling menyita waktu dan peluang efisiensinya, tanpa kewajiban apa pun.'],
+    ],
+    labels: {kebutuhan: 'Kebutuhan', ukuran: 'Ukuran tim', perusahaan: 'Perusahaan', pesan: 'Pesan'},
+    subject: name => `Terima kasih, ${name}. Permintaan konsultasi Anda sudah kami terima`,
+    preheader: 'Tim Befisien sedang mempelajari kebutuhan Anda dan akan segera menghubungi Anda untuk konsultasi gratis.',
+    eyebrow: 'Konsultasi gratis',
+    title: name => `Terima kasih, ${name}!`,
+    subtitle: 'Permintaan konsultasi Anda sudah kami terima dengan baik.',
+    hello: name => `Halo ${name},`,
+    intro: strong => `Terima kasih telah menghubungi ${strong('Befisien Technologies')}. Menceritakan proses yang ingin dibuat lebih efisien adalah langkah pertama yang paling penting, dan Anda sudah melakukannya.`,
+    next: 'Berikut yang akan terjadi selanjutnya:',
+    summary: 'Ringkasan permintaan Anda',
+    more: 'Ada informasi tambahan, seperti sistem yang sedang Anda gunakan atau contoh dokumennya? Cukup balas email ini. Semakin banyak yang kami ketahui, semakin tepat rekomendasi kami.',
+    signoff: 'Salam efisien,', team: 'Tim Befisien Technologies',
+    footnote: 'Anda menerima email ini karena mengisi formulir konsultasi di befisien.com. Jika Anda merasa tidak mengisinya, abaikan saja email ini.',
+    textReceived: 'Terima kasih telah menghubungi Befisien Technologies. Permintaan konsultasi Anda sudah kami terima dengan baik.',
+    textMore: 'Ada informasi tambahan? Cukup balas email ini.',
+    site: SITE + '/',
+  },
+  en: {
+    fallbackName: 'there',
+    steps: data => [
+      ['We review your needs', 'Our team reads your message and prepares questions relevant to your business processes.'],
+      ['We get in touch', `We will contact you by email${data.whatsapp ? ' or WhatsApp' : ''} to schedule a consultation at a time that suits you.`],
+      ['Free consultation session', 'Together we map the processes that take up the most time and where the efficiency gains are, with no obligation.'],
+    ],
+    labels: {kebutuhan: 'Need', ukuran: 'Team size', perusahaan: 'Company', pesan: 'Message'},
+    subject: name => `Thank you, ${name}. We have received your consultation request`,
+    preheader: 'The Befisien team is reviewing your needs and will contact you shortly for a free consultation.',
+    eyebrow: 'Free consultation',
+    title: name => `Thank you, ${name}!`,
+    subtitle: 'We have received your consultation request.',
+    hello: name => `Hi ${name},`,
+    intro: strong => `Thank you for contacting ${strong('Befisien Technologies')}. Describing the process you want to make more efficient is the most important first step, and you have already taken it.`,
+    next: 'Here is what happens next:',
+    summary: 'Your request',
+    more: 'Have more details to share, such as the systems you currently use or sample documents? Just reply to this email. The more we know, the better our recommendations will be.',
+    signoff: 'Best regards,', team: 'The Befisien Technologies Team',
+    footnote: "You are receiving this email because you filled in the consultation form at befisien.com. If you didn't, you can safely ignore this email.",
+    textReceived: 'Thank you for contacting Befisien Technologies. We have received your consultation request.',
+    textMore: 'Have more details to share? Just reply to this email.',
+    site: SITE + '/en/',
+  },
+};
+
 export const thankYouEmail = data => {
-  const name = firstName(data.nama);
-  const steps = [
-    ['Kami pelajari kebutuhan Anda', 'Tim kami membaca pesan Anda dan menyiapkan pertanyaan yang relevan dengan proses bisnis Anda.'],
-    ['Kami hubungi Anda', `Kami akan menghubungi Anda lewat email${data.whatsapp ? ' atau WhatsApp' : ''} untuk menjadwalkan sesi konsultasi di waktu yang Anda pilih.`],
-    ['Sesi konsultasi gratis', 'Bersama-sama kita petakan proses yang paling menyita waktu dan peluang efisiensinya, tanpa kewajiban apa pun.'],
-  ];
+  const lang = visitorLang(data);
+  const t = THANK_YOU[lang];
+  const name = firstName(data.nama, t.fallbackName);
+  const steps = t.steps(data);
   const stepRows = steps.map(([title, desc], i) => `
     <tr>
       <td width="44" style="padding:0 0 18px;vertical-align:top">
@@ -164,42 +221,40 @@ export const thankYouEmail = data => {
         <p style="margin:0;font-size:14px;line-height:1.6;color:${C.text2}">${desc}</p>
       </td>
     </tr>`).join('');
-  const summary = [['Kebutuhan', data.kebutuhan], ['Ukuran tim', data.ukuran], ['Perusahaan', data.perusahaan]]
+  const summary = ['kebutuhan', 'ukuran', 'perusahaan'].map(key => [t.labels[key], data[key]])
     .filter(([, value]) => value);
 
   return {
-    subject: `Terima kasih, ${name}. Permintaan konsultasi Anda sudah kami terima`,
+    subject: t.subject(name),
     html: layout({
-      preheader: 'Tim Befisien sedang mempelajari kebutuhan Anda dan akan segera menghubungi Anda untuk konsultasi gratis.',
-      eyebrow: 'Konsultasi gratis',
-      title: `Terima kasih, ${esc(name)}!`,
-      subtitle: 'Permintaan konsultasi Anda sudah kami terima dengan baik.',
+      lang,
+      preheader: t.preheader,
+      eyebrow: t.eyebrow,
+      title: t.title(esc(name)),
+      subtitle: t.subtitle,
       body: `
-        <p style="margin:0 0 16px">Halo ${esc(name)},</p>
-        <p style="margin:0 0 16px">Terima kasih telah menghubungi <strong style="color:${C.navy}">Befisien Technologies</strong>. Menceritakan proses yang ingin dibuat lebih efisien adalah langkah pertama yang paling penting, dan Anda sudah melakukannya.</p>
-        <p style="margin:0 0 30px">Berikut yang akan terjadi selanjutnya:</p>
+        <p style="margin:0 0 16px">${t.hello(esc(name))}</p>
+        <p style="margin:0 0 16px">${t.intro(s => `<strong style="color:${C.navy}">${s}</strong>`)}</p>
+        <p style="margin:0 0 30px">${t.next}</p>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${stepRows}</table>
         <div style="height:12px"></div>
-        ${heading('Ringkasan permintaan Anda')}
+        ${heading(t.summary)}
         ${summary.length ? `<div style="margin-bottom:16px">${detailRows(summary.map(([label, value]) => [label, esc(value)]))}</div>` : ''}
         ${quote(data.pesan || '-')}
-        <p style="margin:28px 0 0">Ada informasi tambahan, seperti sistem yang sedang Anda gunakan atau contoh dokumennya? Cukup balas email ini. Semakin banyak yang kami ketahui, semakin tepat rekomendasi kami.</p>
-        <p style="margin:16px 0 24px">Sambil menunggu, lihat bagaimana AI dan otomasi membantu proses seperti milik Anda:</p>
-        ${button(`${SITE}/#penerapan`, 'Lihat Contoh Penerapan &rarr;')}
-        <p style="margin:32px 0 0">Salam efisien,<br><strong style="color:${C.navy}">Tim Befisien Technologies</strong></p>`,
-      footnote: 'Anda menerima email ini karena mengisi formulir konsultasi di befisien.com. Jika Anda merasa tidak mengisinya, abaikan saja email ini.',
+        <p style="margin:28px 0 0">${t.more}</p>
+        <p style="margin:28px 0 0">${t.signoff}<br><strong style="color:${C.navy}">${t.team}</strong></p>`,
+      footnote: t.footnote,
     }),
     text: [
-      `Halo ${name},`, '',
-      'Terima kasih telah menghubungi Befisien Technologies. Permintaan konsultasi Anda sudah kami terima dengan baik.', '',
-      'Yang akan terjadi selanjutnya:',
+      t.hello(name), '',
+      t.textReceived, '',
+      t.next,
       ...steps.map(([title, desc], i) => `${i + 1}. ${title}: ${desc}`), '',
-      'Ringkasan permintaan Anda:',
+      `${t.summary}:`,
       ...summary.map(([label, value]) => `${label}: ${value}`),
-      `Pesan: ${data.pesan || '-'}`, '',
-      'Ada informasi tambahan? Cukup balas email ini.',
-      `Lihat contoh penerapan: ${SITE}/#penerapan`, '',
-      'Salam efisien,', 'Tim Befisien Technologies', SITE,
+      `${t.labels.pesan}: ${data.pesan || '-'}`, '',
+      t.textMore, '',
+      t.signoff, t.team, t.site,
     ].join('\n'),
   };
 };
