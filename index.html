@@ -738,9 +738,10 @@
         </div>
       </div>
 
-      <!-- Replace [FORM_ID] with your Formspree form ID (formspree.io → New form) -->
-      <form id="contact-form" class="cform" action="https://formspree.io/f/[FORM_ID]" method="POST">
-        <input type="hidden" name="_subject" value="Pesan baru dari website Befisien">
+      <!-- Netlify Forms: detected at deploy time; submission emails are configured in Netlify → Forms → Notifications -->
+      <form id="contact-form" class="cform" name="kontak" method="POST" data-netlify="true" netlify-honeypot="_gotcha">
+        <input type="hidden" name="form-name" value="kontak">
+        <input type="hidden" name="subject" value="Pesan baru dari website Befisien">
         <div class="field">
           <label for="cf-nama">Nama lengkap</label>
           <input id="cf-nama" name="nama" type="text" autocomplete="name" required>

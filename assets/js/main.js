@@ -159,15 +159,16 @@ const setStatus = (msg, type) => {
 };
 form.addEventListener('submit', async e => {
   e.preventDefault();
-  if (form.getAttribute('action').includes('[FORM_ID]')) {
-    setStatus('Form belum terhubung: ganti [FORM_ID] di index.html dengan ID form Formspree.', 'error');
-    return;
-  }
   submitBtn.disabled = true;
   submitBtn.setAttribute('aria-busy', 'true');
   setStatus('Mengirim pesan…');
   try {
-    const res = await fetch(form.action, {method: 'POST', body: new FormData(form), headers: {Accept: 'application/json'}});
+    // Netlify Forms expects a url-encoded POST to any static path, including the form-name field
+    const res = await fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams(new FormData(form)).toString(),
+    });
     if (!res.ok) throw new Error(res.status);
     form.reset();
     setStatus('Terima kasih! Pesan Anda sudah terkirim. Tim kami akan segera menghubungi Anda.', 'success');

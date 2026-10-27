@@ -1,4 +1,5 @@
-# Static site served from the repo root; the chat API lives in netlify/functions/chat.mjs (/api/chat)
+# Static site served from the repo root; the chat API lives in netlify/functions/chat.mjs (/api/chat).
+# netlify/functions/submission-created.mjs emails contact form submissions through Resend.
 [build]
   publish = "."
 
