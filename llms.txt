@@ -33,16 +33,13 @@ Menjadi penggerak efisiensi bisnis di Indonesia melalui integrasi AI Agent, guna
 - **Dashboard & Aplikasi**: Dashboard KPI real-time dan aplikasi web/mobile internal yang dibuat sesuai alur kerja perusahaan.
 - **Content Management Service**: Pembuatan dan pengelolaan CMS agar tim dapat memperbarui website, katalog, dan konten tanpa bergantung pada developer.
 
-## Contoh penerapan
+## Portofolio
 
-Skenario umum (ilustrasi, bukan studi kasus klien):
+Proyek yang sudah dikerjakan Befisien (nama klien tidak dipublikasikan):
 
-- **Approval & invoice vendor** (Keuangan, Otomasi Workflow): Sebelum: Data invoice diketik ulang dari PDF, lalu approval berpindah-pindah lewat email dan mudah tertunda. Sesudah: Data invoice terbaca otomatis, approval berjenjang cukup satu klik, dan statusnya bisa dilacak kapan saja.
-- **Pertanyaan pelanggan di WhatsApp** (Customer Service, AI Agent): Sebelum: Pesan menumpuk di luar jam kerja dan tim menjawab pertanyaan yang sama berulang kali. Sesudah: AI agent menjawab pertanyaan umum 24/7 dan meneruskan kasus yang kompleks ke tim yang tepat.
-- **Stok di banyak kanal** (Penjualan & Gudang, Integrasi Sistem): Sebelum: Stok di marketplace, gudang, dan ERP tidak sinkron sehingga pesanan bisa melebihi stok. Sesudah: Stok dan pesanan tersinkron otomatis di semua kanal, tanpa input ulang.
-- **Laporan performa bulanan** (Manajemen, Dashboard & Aplikasi): Sebelum: Laporan dirangkum manual dari banyak spreadsheet dan baru siap berhari-hari kemudian. Sesudah: Dashboard KPI terbarui otomatis, dan ringkasan laporan terkirim ke email setiap pagi.
-- **Pertanyaan seputar SOP** (HR & Operasional, AI Agent): Sebelum: Karyawan terus bertanya hal yang sama soal SOP dan kebijakan, sementara dokumennya sulit dicari. Sesudah: Asisten internal menjawab langsung dari dokumen SOP perusahaan, lengkap dengan rujukannya.
-- **Update website & promo** (Marketing, Content Management Service): Sebelum: Setiap perubahan harga, katalog, atau promo di website harus menunggu developer. Sesudah: Tim marketing memperbarui konten sendiri lewat CMS, dengan alur review sebelum tayang.
+- **Sistem Trucking** (grup usaha logistik dan keuangan grup; Integrasi Sistem, Dashboard & Aplikasi): Masalah: laba rugi tiap anak perusahaan direkap manual dari Excel, terpisah dari data operasional armada, sehingga konsolidasi grup rawan salah hitung. Tujuan: direksi melihat angka yang sama dan bisa dipercaya, dari operasional harian hingga laporan grup. Solusi: dua sistem lama disatukan dalam satu platform; laporan bulanan melewati alur pengajuan, persetujuan, lalu dikunci; akses dibatasi per perusahaan; setiap perubahan tercatat; dasbor eksekutif untuk direksi.
+- **Sistem Informasi Akademik** (lembaga bimbingan belajar; Dashboard & Aplikasi): Masalah: materi, nilai, presensi, dan jurnal mengajar tersebar di banyak tempat, kinerja pengajar sulit diukur, dan orang tua sulit memantau perkembangan anaknya. Tujuan: satu aplikasi untuk siswa, pengajar, pengelola, dan orang tua, dengan KPI pengajar yang dihitung dari data. Solusi: modul, latihan soal, dan try out berjadwal untuk siswa; presensi berfoto dan jurnal wajib untuk pengajar; nilai otomatis masuk ke KPI; orang tua memantau grafik perkembangan anak.
+- **CRM** (sistem internal Befisien; AI Agent): Masalah: data klien, follow-up, dan keuangan tersebar di catatan dan chat, sehingga langkah berikutnya mudah terlewat. Tujuan: setiap klien punya status dan langkah berikutnya yang jelas, dan laba per klien selalu terlihat. Solusi: pipeline penjualan, proyek, invoice, dan laba rugi dalam satu aplikasi, dengan AI agent di dalamnya yang mengubah voice note Telegram menjadi data CRM, menyarankan langkah berikutnya setiap pagi, dan menyusun strategi per klien lewat chat. AI mengusulkan, tim yang memutuskan.
 
 ## Cara kerja
 

@@ -169,6 +169,38 @@ if (matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: 
 show(0);
 sync();
 
+// portfolio strip: a horizontal scroll-snap track (native swipe and arrow keys);
+// the arrows step one card, the progress bar and counter follow the scroll position
+const pfTrack = document.querySelector('.pf-track');
+const pfCards = [...pfTrack.children];
+const pfPrev = document.querySelector('.pf-prev');
+const pfNext = document.querySelector('.pf-next');
+const pfBar = document.querySelector('.pf-progress span');
+const pfCount = document.querySelector('.pf-count b');
+const pfStep = () => pfCards[1].offsetLeft - pfCards[0].offsetLeft;
+const pfUpdate = () => {
+  const max = pfTrack.scrollWidth - pfTrack.clientWidth;
+  const p = max > 0 ? pfTrack.scrollLeft / max : 0;
+  const shown = Math.min(1, pfTrack.clientWidth / pfTrack.scrollWidth);
+  pfBar.style.width = shown * 100 + '%';
+  pfBar.style.transform = `translateX(${p * (1 / shown - 1) * 100}%)`;
+  pfCount.textContent = String(Math.round(p * (pfCards.length - 1)) + 1).padStart(2, '0');
+  pfPrev.disabled = pfTrack.scrollLeft < 2;
+  pfNext.disabled = pfTrack.scrollLeft > max - 2;
+};
+// scroll-behavior comes from the CSS, so reduced motion jumps instead of gliding
+pfPrev.addEventListener('click', () => pfTrack.scrollBy({left: -pfStep()}));
+pfNext.addEventListener('click', () => pfTrack.scrollBy({left: pfStep()}));
+pfTrack.addEventListener('scroll', pfUpdate, {passive: true});
+// a resize changes the slide width: snap back onto the slide that was showing
+let pfShown = 0;
+pfTrack.addEventListener('scrollend', () => { pfShown = Math.round(pfTrack.scrollLeft / pfStep()); });
+addEventListener('resize', () => {
+  pfTrack.scrollTo({left: pfShown * pfStep(), behavior: 'instant'});
+  pfUpdate();
+});
+pfUpdate();
+
 // contact form
 const form = document.getElementById('contact-form');
 const formStatus = form.querySelector('.cform-status');
@@ -200,20 +232,9 @@ form.addEventListener('submit', async e => {
   }
 });
 
-// prefill the contact form from the hero finder and the solution CTAs
-const prefill = (kebutuhan, ukuran) => {
-  if (kebutuhan) form.elements.kebutuhan.value = kebutuhan;
-  if (ukuran) form.elements.ukuran.value = ukuran;
-};
-document.querySelector('.finder').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = e.currentTarget.elements;
-  prefill(f.kebutuhan.value, f.ukuran.value);
-  document.getElementById('kontak').scrollIntoView();
-  form.elements.nama.focus({preventScroll: true});
-});
+// prefill the contact form from the solution CTAs
 document.querySelectorAll('[data-kebutuhan]').forEach(a =>
-  a.addEventListener('click', () => prefill(a.dataset.kebutuhan)));
+  a.addEventListener('click', () => { form.elements.kebutuhan.value = a.dataset.kebutuhan; }));
 
 // process timeline: reveal the steps one by one the first time it scrolls into view
 const timeline = document.querySelector('.timeline');
